@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+
+  div {
+    position: relative;
+    margin: 15px auto;
+    width: 800px;
+    height: 600px;
+    display: block;
+    background-color: rgb(219, 121, 121);
+  }
+
+  canvas {
+    position: absolute;
+    display: block;
+  }
+
+  video {
+    border: 3px solid rgba(0, 0, 0, 1);
+    /* display: block; */
+    margin: 15px auto;
+    /* box-sizing: content-box; */
+    box-sizing: border-box;
+  }
+
+  button {
+    display: block;
+    margin: 15px auto;
+    transform: translate(0, 0) scale(1);
+  }
+</style>
+
+<body>
+  <p style="margin: 15px auto;text-align:center">刮刮乐</p>
+  <div>
+    <canvas id="canvas0" width="800" height="600"></canvas>
+    <canvas id="canvas1" width="800" height="600"></canvas>
+  </div>
+  <script>
+    const canvas0 = document.getElementById('canvas0')
+    const canvas1 = document.getElementById('canvas1')
+    const ctx0 = canvas0.getContext('2d')
+    const ctx = canvas1.getContext('2d')
+
+
+    let deg = 0
+    function rad(deg) {
+      return deg / 180 * Math.PI
+    }
+    function cSin(deg) {
+      return Math.sin(rad(deg))
+    }
+    function cCos(deg) {
+      return Math.cos(rad(deg))
+    }
+
+    // 混合模式，部分属性需要前面有绘制的东西，不然会全白
+    // 默认·正常：source-over
+    // 只显示重叠处：source-in（需要设置再绘制的后面）
+    // 只显示新绘制与旧绘制的不重叠处：source-out
+    // 只显示旧绘制与新绘制的不重叠处：destination-out（需要设置再绘制的后面）
+    // 重叠的地方透明：xor
+    // 光度-黑白照片：luminosity
+    // 差值：difference
+    // ctx.globalCompositeOperation = 'source-out'
+
+
+
+    // 第一个canvas，显示刮奖结果
+    const img = new Image()
+    img.src = './src/image/shatang0.jpg'
+
+    img.onload = function () {
+      ctx0.drawImage(img, 0, 50, 800, 500)
+      ctx0.textAlign = 'center'
+      ctx0.textBaseline = 'middle'
+
+      const result = Math.round(Math.random() * 1500)
+      console.log(result);
+      let resultTetx = ''
+      if (result < 100) {
+        resultTetx = '100, 000 元'
+        ctx0.font = '125px 微软雅黑'
+      } else if (result < 300) {
+        resultTetx = '小米10 手机一部'
+        ctx0.font = '100px 微软雅黑'
+      } else {
+        resultTetx = '谢谢惠顾'
+        ctx0.font = '150px 微软雅黑'
+      }
+      ctx0.fillText(resultTetx, 400, 300)
+    }
+
+
+    // 第二个canvas，实现刮奖效果
+
+    ctx.fillStyle = 'grey'
+    ctx.fillRect(0, 00, 800, 600)
+
+    ctx.globalCompositeOperation = 'difference'
+
+    const img1 = new Image()
+    img1.src = './src/image/myHead.jpg'
+
+    img1.onload = function () {
+
+      deg = 30
+      ctx.setTransform(cCos(deg), cSin(deg), -cSin(deg), cCos(deg), 150, -350)
+
+      ctx.drawImage(img1, 0, 0, 300, 300)
+      ctx.drawImage(img1, 300, 0, 300, 300)
+      ctx.drawImage(img1, 600, 0, 300, 300)
+      ctx.drawImage(img1, 900, 0, 300, 300)
+
+      ctx.drawImage(img1, 0, 300, 300, 300)
+      ctx.drawImage(img1, 300, 300, 300, 300)
+      ctx.drawImage(img1, 600, 300, 300, 300)
+      ctx.drawImage(img1, 900, 300, 300, 300)
+
+      ctx.drawImage(img1, 0, 600, 300, 300)
+      ctx.drawImage(img1, 300, 600, 300, 300)
+      ctx.drawImage(img1, 600, 600, 300, 300)
+      ctx.drawImage(img1, 900, 600, 300, 300)
+    }
+
+
+
+    ctx.fillStyle = 'yellow'
+    ctx.fillRect(0, 0, 30, 30)
+
+
+    // 这个值需要写在绘制的后面
+
+    let flag = false;
+    document.addEventListener('mousedown', function (e) {
+      // console.log('按下', e);
+      if (e.target.nodeName == 'CANVAS') {
+        flag = true
+      }
+    })
+    document.addEventListener('mousemove', function (e) {
+      // console.log('点移动', e.offsetX, e.offsetY);
+      const x = e.offsetX
+      const y = e.offsetY
+
+      if (flag && e.target.nodeName == 'CANVAS') {
+
+        deg = 0
+        ctx.setTransform(cCos(deg), cSin(deg), -cSin(deg), cCos(deg), 0, 0)
+
+        ctx.globalCompositeOperation = 'destination-out'
+        ctx.beginPath()
+        ctx.fillStyle = 'red'
+        ctx.arc(x, y, 30, 0, 2 * Math.PI)
+        ctx.fill()
+      }
+    })
+    document.addEventListener('mouseup', function (e) {
+      // console.log('抬起', e);
+      flag = false
+    })
+
+  </script>
+
+</body>
+
+</html>

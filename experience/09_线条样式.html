@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    border: 3px solid black;
+    display: block;
+    margin: 15px auto;
+  }
+</style>
+
+<body>
+  <canvas width="800" height="700"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    // // 线条宽度，number
+    // ctx.lineWidth
+    // // 线条端点样式，默认为平的"butt"、半圆"round"、正方形"square"
+    // ctx.lineCap
+    // // 线条与线条连接处的样式，默认为尖的"miter"、线宽为半径的圆角"round"、内凹三角形"square"
+    // ctx.lineJoin
+    // // 斜接面进行限制
+    // ctx.miterLimit
+    // // 设置虚线
+    // ctx.setLineDash([10,10])
+    // // 设置虚线偏移量
+    // ctx.lineDashOffset = 5
+
+    let num = 0
+    function animation() {
+      ctx.clearRect(0, 0, 800, 700)
+      num++
+      if (num >= 500) {
+        num = 0
+      }
+
+      // num--
+      // if (num <= 0) {
+      //   num = 1000
+      // }
+      ctx.moveTo(100, 100)
+      ctx.lineTo(200, 200)
+      ctx.lineTo(300, 100)
+      ctx.lineTo(400, 200)
+      ctx.lineTo(500, 100)
+      ctx.lineTo(525, 200)
+      ctx.lineTo(550, 100)
+
+      // // 线条宽度，number
+      // ctx.lineWidth = 15
+      // // 线条端点样式，默认为平的"butt"、半圆"round"、正方形"square"
+      // ctx.lineCap = 'round'
+      // // 线条与线条连接处的样式，默认为尖的"miter"、线宽为半径的圆角"round"、内凹三角形"square"
+      // ctx.lineJoin = 'miter'
+      // // 斜接面进行限制ter'
+      // ctx.miterLimit = 1
+      // // 设置虚线
+      ctx.setLineDash([20, 20])
+      // 设置虚线偏移量
+      ctx.lineDashOffset = num
+
+      ctx.stroke()
+      requestAnimationFrame(animation)
+    }
+    requestAnimationFrame(animation)
+
+
+  </script>
+
+</body>
+
+</html>

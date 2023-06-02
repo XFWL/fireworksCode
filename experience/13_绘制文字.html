@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    border: 3px solid black;
+    display: block;
+    margin: 15px auto;
+  }
+
+  video {
+    border: 3px solid black;
+    /* display: block; */
+    margin: 15px auto;
+  }
+
+  button {
+    display: block;
+    margin: 15px auto;
+  }
+</style>
+
+<body>
+  <canvas width="800" height="600"></canvas>
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    // 文本样式
+    ctx.font = '100px 微软雅黑'
+    // 文本对齐方式：
+    // 左：left、右：right、居中：center、默认·文字开头：start、文字结束：end
+    ctx.textAlign = 'center'
+    // 文本基线对其方式 
+    // 居中：middle、悬挂基线：hanging、上：top、默认·正常：alphabetic、基线下方：ideographic
+    ctx.textBaseline = 'middle'
+    // 文本的方向,
+    // 左到右：ltr、右到左：rtl、默认·正常：inherit
+    ctx.direction = 'ltr'
+    // 测量文本宽度 (text)
+    const result = ctx.measureText('Hello Word !')
+    console.log(result);
+
+    // 绘制文字 (text, x, y,maxWidth)
+    ctx.strokeText('Hello Word !', 400, 300)
+    ctx.fillText('Hello Word !', 400, 300)
+
+    ctx.arc(400, 300, 5, 0, 2 * Math.PI)
+    ctx.fill()
+
+  </script>
+
+</body>
+
+</html>

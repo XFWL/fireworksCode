@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    border: 3px solid black;
+    display: block;
+    margin: 15px auto;
+  }
+</style>
+
+<body>
+  <canvas width="800" height="600"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    const targetImgObj = new Image()
+    targetImgObj.src = './src/image/shatang0.jpg'
+
+    targetImgObj.onload = function () {
+      // // 三参，(图像的对象，绘制开始x，绘制开始y)
+      // // 绘制图片,如果画布比图片小那就只能绘制对应画布大小的部分图片
+      // ctx.drawImage(targetImgObj, 0, 0)
+
+      // // 五参，(图像的对象，绘制开始x，绘制开始y，设置图像w，设置图像h)
+      // // 绘制图片,可以设置图像的宽高，要自己想好，不然会变形
+      // ctx.drawImage(targetImgObj, 0, 0, 800, 500)
+
+      // 九参，(图像的对象，截取开始x，截取开始y，截取宽度w，截取高度h，绘制开始x，绘制开始y，设置图像w，设置图像h)
+      // 绘制图片,可以设置图像的宽高，要自己想好，不然会变形
+      ctx.drawImage(targetImgObj, 570, 0, 1236, 1236, 0, 0, 500, 500)
+    }
+
+  </script>
+
+</body>
+
+</html>

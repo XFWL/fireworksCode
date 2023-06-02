@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+
+  div {
+    position: relative;
+    margin: 15px auto;
+    width: 800px;
+    height: 600px;
+    display: block;
+    background-color: rgb(219, 121, 121);
+  }
+
+  canvas {
+    /* position: absolute; */
+    display: block;
+    border: 3px solid rgba(0, 0, 0, 1);
+    margin: 15px auto;
+  }
+
+  video {
+    border: 3px solid rgba(0, 0, 0, 1);
+    /* display: block; */
+    margin: 15px auto;
+    /* box-sizing: content-box; */
+    box-sizing: border-box;
+  }
+
+  button {
+    display: block;
+    margin: 15px auto;
+    transform: translate(0, 0) scale(1);
+  }
+</style>
+
+<body>
+  <canvas id="canvas1" width="800" height="600"></canvas>
+  <script>
+    const canvas1 = document.getElementById('canvas1')
+    const ctx = canvas1.getContext('2d')
+
+    // 当前的变换矩阵。
+    // 当前裁剪区域。
+    // 当前破折号列表。
+    // 以下属性的当前值： 
+    // strokeStyle, fillStyle, globalAlpha, lineWidth, 
+    // lineCap, lineJoin, miterLimit, lineDashOffset, 
+    // shadowOffsetX, shadowOffsetY, shadowBlur, shadowColor, 
+    // globalCompositeOperation, font, textAlign, 
+    // textBaseline, direction, imageSmoothingEnabled。
+
+    let degX = 0
+    let degY = 0
+    let timesX = 1
+    let timesY = 1
+    let x = 0
+    let y = 0
+
+    function cCos(deg) {
+      return Math.cos(deg / 180 * Math.PI)
+    }
+    function cSin(deg) {
+      return Math.sin(deg / 180 * Math.PI)
+    }
+
+    degX = 0
+    degY = 0
+    timesX = 1
+    timesY = 1
+    x = 0
+    y = 0
+    ctx.setTransform(cCos(degY) * timesX, cSin(degY) * timesX, -cSin(degX) * timesY, cCos(degX) * timesY, x, y)
+    ctx.fillStyle = 'red'
+    ctx.fillRect(0, 0, 100, 100)
+    ctx.save()
+
+    degX = 60
+    degY = 0
+    timesX = 1
+    timesY = 1
+    x = 100
+    y = 100
+    ctx.setTransform(cCos(degY) * timesX, cSin(degY) * timesX, -cSin(degX) * timesY, cCos(degX) * timesY, x, y)
+    ctx.fillStyle = 'yellow'
+    ctx.fillRect(0, 0, 100, 100)
+    ctx.save()
+
+    degX = 0
+    degY = 60
+    timesX = 1
+    timesY = 1
+    x = 200
+    y = 200
+    ctx.setTransform(cCos(degY) * timesX, cSin(degY) * timesX, -cSin(degX) * timesY, cCos(degX) * timesY, x, y)
+    ctx.fillStyle = 'blue'
+    ctx.fillRect(0, 0, 100, 100)
+    ctx.save()
+
+    degX = 60
+    degY = 60
+    timesX = 1
+    timesY = 1
+    x = 300
+    y = 300
+    ctx.setTransform(cCos(degY) * timesX, cSin(degY) * timesX, -cSin(degX) * timesY, cCos(degX) * timesY, x, y)
+    ctx.fillStyle = 'green'
+    ctx.fillRect(0, 0, 100, 100)
+    // 保存当前状态
+    ctx.save()
+
+    // 返回最近保存状态，无保存就不进行操作
+    ctx.restore()
+    ctx.fillRect(150, 0, 100, 100)
+
+
+    ctx.restore()
+    ctx.fillRect(150, 0, 100, 100)
+
+    ctx.restore()
+    ctx.fillRect(150, 0, 100, 100)
+
+    ctx.restore()
+    ctx.fillRect(150, 0, 100, 100)
+
+
+
+
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    border: 3px solid black;
+    display: block;
+    margin: 15px auto;
+  }
+</style>
+
+<body>
+  <canvas width="800" height="700"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    const img = new Image()
+    img.src = './src/image/myHead.jpg'
+
+    img.onload = function () {
+      // 图案 (用作图案的图像，重复模式)
+      // 用作图案的图像：img对象、svg对象、视频捕获对象、canvas对象
+      // 重复模式：'repeat'、'no-repeat'、'repeat-x'、'repeat-y'
+      // 如果 createPattern d的图像对象未加载出来会返回null
+      const ctxImg = ctx.createPattern(img, 'no-repeat')
+      ctx.fillStyle = ctxImg
+      ctx.fillRect(0, 0, 800, 800)
+    }
+
+  </script>
+
+</body>
+
+</html>

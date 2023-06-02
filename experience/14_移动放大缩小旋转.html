@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    border: 3px solid black;
+    display: block;
+    margin: 15px auto;
+  }
+
+  video {
+    border: 3px solid black;
+    /* display: block; */
+    margin: 15px auto;
+  }
+
+  button {
+    display: block;
+    margin: 15px auto;
+    transform: translate(0, 0) scale(1);
+  }
+</style>
+
+<body>
+  <canvas width="800" height="600"></canvas>
+  <button>sss </button>
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    // 移动整个画布坐标系 (位移x，位移y)
+    // 谨慎：会影响到后面的坐标系，修改后再修改会以上一次修改后的0,0开始
+    // ctx.translate(100, 100)
+    // ctx.fillRect(0, 0, 50, 50)
+
+    // 缩放整个画布坐标系 (x缩放倍，y缩放倍)
+    // 谨慎：会影响到后面的坐标系，修改后再修改会以上一次修改后的0,0开始
+    // ctx.scale(5, 2)
+    // ctx.fillRect(0, 0, 50, 50)
+
+    // 以0,0旋转整个画布坐标系 (角度)
+    // 谨慎：会影响到后面的坐标系，修改后再修改会以上一次修改后的0,0开始
+    // ctx.rotate(45 * Math.PI / 180)
+    // ctx.fillRect(0, 0, 300, 50)
+
+    ctx.translate(400, 300)
+    // ctx.scale(5, 1)
+    ctx.rotate(Math.PI / 180 * 45)
+    ctx.fillRect(-150, -25, 300, 50)
+
+    // ctx.arc(100, 100, 30, 0, 2 * Math.PI)
+    // ctx.fill()
+
+
+
+  </script>
+
+</body>
+
+</html>

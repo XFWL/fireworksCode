@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    border: 3px solid black;
+    display: block;
+    margin: 15px auto;
+  }
+</style>
+
+<body>
+  <canvas width="800" height="700"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    ctx.moveTo(100, 100)
+    ctx.lineTo(400, 300)
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.strokeStyle = 'red'
+    ctx.moveTo(100, 100)
+    // .quadraticCurveTo(控制的x, 控制的y, 结束x, 结束y)
+    ctx.quadraticCurveTo(180, 300, 400, 300)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.strokeStyle = 'red'
+    ctx.moveTo(100, 100)
+    // .bezierCurveTo(第一个控制的x, 第一个控制的y, 第二个控制的x, 第二个控制的y, 结束x, 结束y)
+    ctx.bezierCurveTo(180, 300, 360, 100, 400, 300)
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.arc(180, 300, 3, 0, 2 * Math.PI)
+    ctx.fill()
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.arc(360, 100, 3, 0, 2 * Math.PI)
+    ctx.fill()
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.arc(580, 520, 3, 0, 2 * Math.PI)
+    // ctx.fill()
+    ctx.beginPath()
+    ctx.arc(580, 540, 3, 0, 2 * Math.PI)
+    // ctx.fill()
+
+    // 对话气泡框1
+    ctx.beginPath()
+    ctx.strokeStyle = 'black'
+    ctx.moveTo(500, 250)
+    ctx.quadraticCurveTo(500, 200, 600, 200)
+    ctx.quadraticCurveTo(700, 200, 700, 250)
+    ctx.quadraticCurveTo(700, 300, 600, 300)
+    ctx.quadraticCurveTo(600, 350, 550, 350)
+    ctx.quadraticCurveTo(580, 340, 570, 300)
+    ctx.quadraticCurveTo(500, 300, 500, 250)
+    ctx.stroke()
+    // 对话气泡框2
+    ctx.beginPath()
+    ctx.strokeStyle = 'black'
+    ctx.moveTo(500, 450)
+    ctx.bezierCurveTo(500, 400, 500, 400, 600, 400)
+    ctx.bezierCurveTo(700, 400, 700, 400, 700, 450)
+    ctx.bezierCurveTo(700, 500, 700, 500, 600, 500)
+    ctx.bezierCurveTo(600, 520, 600, 540, 570, 550)
+    ctx.bezierCurveTo(580, 540, 580, 520, 570, 500)
+    ctx.bezierCurveTo(500, 500, 500, 500, 500, 450)
+    ctx.stroke()
+
+
+
+    ctx.beginPath()
+    ctx.arc(150, 590, 3, 0, 2 * Math.PI)
+    ctx.fill()
+    ctx.beginPath()
+    ctx.arc(100, 450, 3, 0, 2 * Math.PI)
+    ctx.fill()
+
+    // 爱心
+    ctx.beginPath()
+    ctx.fillStyle = 'red'
+    ctx.moveTo(200, 600)
+    ctx.bezierCurveTo(150, 590, 100, 470, 200, 520)
+    ctx.bezierCurveTo(300, 470, 250, 590, 200, 600)
+    ctx.fill();
+
+
+
+
+  </script>
+
+</body>
+
+</html>

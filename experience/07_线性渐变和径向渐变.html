@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    border: 3px solid black;
+    display: block;
+    margin: 15px auto;
+  }
+</style>
+
+<body>
+  <canvas width="800" height="1200"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+
+    // ctx.rect(50, 50, 300, 300)
+    // // 线性渐变 (渐变开始x, 渐变开始y, 渐变结束x, 渐变结束y)
+    // const linearGradient = ctx.createLinearGradient(50, 200, 350, 200)
+    // linearGradient.addColorStop(0, 'red')
+    // linearGradient.addColorStop(0.5, 'yellow')
+    // linearGradient.addColorStop(1, 'blue')
+    // ctx.fillStyle = linearGradient
+    // ctx.fill()
+
+    let n = 0
+    function animation() {
+      ctx.beginPath()
+      ctx.rect(50, 50, 300, 300)
+      n++
+      if (n >= 250) {
+        n = -650
+      }
+      // 线性渐变 (渐变开始x, 渐变开始y, 渐变结束x, 渐变结束y)
+      const linearGradient = ctx.createLinearGradient(50 + n, 50 + n, 700 + n, 700 + n)
+      linearGradient.addColorStop(0, 'red')
+      linearGradient.addColorStop(0.14, 'yellow')
+      linearGradient.addColorStop(0.28, 'blue')
+      linearGradient.addColorStop(0.42, 'red')
+      linearGradient.addColorStop(0.64, 'yellow')
+      linearGradient.addColorStop(0.75, 'blue')
+      linearGradient.addColorStop(1, 'red')
+      ctx.fillStyle = linearGradient
+      ctx.fill()
+      requestAnimationFrame(animation)
+    }
+    requestAnimationFrame(animation)
+
+    ctx.beginPath()
+    ctx.rect(450, 50, 300, 300)
+    // 径向渐变 (里面的圆心x1, 里面的圆心y1, 里面的圆半径r1, 外面的圆心x2, 外面的圆心y2, 里面的圆半径r2)
+    const radialGradient = ctx.createRadialGradient(600, 200, 30, 600, 200, 150)
+    radialGradient.addColorStop(0, 'yellow')
+    radialGradient.addColorStop(0.33, 'blue')
+    radialGradient.addColorStop(0.66, 'black')
+    radialGradient.addColorStop(1, 'green')
+    ctx.fillStyle = radialGradient
+    ctx.fill()
+
+
+    ctx.beginPath()
+    ctx.rect(50, 400, 300, 300)
+    // 锥形渐变 (渐变角度-顺时针，渐变中心x，渐变中心y)
+    const ConicGradient = ctx.createConicGradient(-90 * (Math.PI / 180), 200, 550)
+    ConicGradient.addColorStop(0, 'yellow')
+    ConicGradient.addColorStop(0.33, 'blue')
+    ConicGradient.addColorStop(0.66, 'black')
+    ConicGradient.addColorStop(1, 'green')
+    ctx.fillStyle = ConicGradient
+    ctx.fill()
+
+    ctx.beginPath()
+    ctx.font = '70px 微软雅黑'
+    const fontLinearGradient = ctx.createLinearGradient(450, 550, 700, 550)
+    const fontLinearGradient2 = ctx.createLinearGradient(450, 550, 750, 550)
+    fontLinearGradient.addColorStop(0, 'red')
+    fontLinearGradient.addColorStop(0.5, 'blue')
+    fontLinearGradient.addColorStop(1, 'lightBlue')
+    fontLinearGradient2.addColorStop(0, 'yellow')
+    fontLinearGradient2.addColorStop(0.5, 'green')
+    fontLinearGradient2.addColorStop(1, 'pink')
+    ctx.strokeStyle = fontLinearGradient2
+    ctx.fillStyle = fontLinearGradient
+    ctx.lineWidth = 10
+    ctx.strokeText('渐变文字', 450, 550)
+    ctx.fillText('渐变文字', 450, 550)
+
+    ctx.beginPath()
+    const gradientColor = ctx.createRadialGradient(130, 830, 10, 175, 875, 100)
+    gradientColor.addColorStop(0, 'white')
+    gradientColor.addColorStop(1, 'red')
+    ctx.arc(200, 900, 150, 0, 2 * Math.PI)
+    ctx.fillStyle = gradientColor
+    ctx.lineWidth = 1
+    ctx.fill()
+  </script>
+
+</body>
+
+</html>

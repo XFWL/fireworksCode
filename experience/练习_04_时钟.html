@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    /* position: absolute; */
+    display: block;
+    border: 3px solid rgba(0, 0, 0, 1);
+    margin: 15px auto;
+  }
+</style>
+
+<body>
+  <canvas id="canvas1" width="800" height="600"></canvas>
+
+  <script>
+    // 获取元素
+    const canvas = document.getElementById('canvas1')
+    const ctx = canvas1.getContext('2d')
+
+    // 封装矩阵函数
+    function myTransform(context, degX, degY, multipleX, multipleY, x, y) {
+      context.transform(Math.cos(degY / 180 * Math.PI) * multipleX, Math.sin(degY / 180 * Math.PI) * multipleX, -Math.sin(degX / 180 * Math.PI) * multipleY, Math.cos(degX / 180 * Math.PI) * multipleY, x, y)
+    }
+    function mySetTransform(context, degX, degY, multipleX, multipleY, x, y) {
+      context.setTransform(Math.cos(degY / 180 * Math.PI) * multipleX, Math.sin(degY / 180 * Math.PI) * multipleX, -Math.sin(degX / 180 * Math.PI) * multipleY, Math.cos(degX / 180 * Math.PI) * multipleY, x, y)
+    }
+
+    function render() {
+      mySetTransform(ctx, 0, 0, 1, 1, 0, 0)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      // 绘制时 时刻
+      for (let i = 0; i < 12; i++) {
+        const beseMultiple = 360 / 12
+        mySetTransform(ctx, i * beseMultiple, i * beseMultiple, 1, 1, 400, 300)
+        ctx.beginPath()
+        ctx.strokeStyle = 'black'
+        ctx.lineWidth = 13
+        ctx.moveTo(0, -200)
+        ctx.lineTo(0, -230)
+        ctx.stroke()
+
+        // 绘制数字时刻
+        // 这里的矩阵虽然不是重置的，但是每次都会倍上面的重置矩阵重置，不存在多个矩阵叠加
+        myTransform(ctx, -i * beseMultiple, -i * beseMultiple, 1, 1, 0, -255)
+        ctx.font = '30px 微软雅黑'
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle'
+        i == 0 ? ctx.fillText(12, 0, 0) : ctx.fillText(i, 0, 0)
+      }
+      // 绘制秒 时刻
+      for (let i = 0; i < 60; i++) {
+        const beseMultiple = 360 / 60
+        mySetTransform(ctx, i * beseMultiple, i * beseMultiple, 1, 1, 400, 300)
+        ctx.beginPath()
+        ctx.strokeStyle = 'black'
+        ctx.lineWidth = 1
+        ctx.moveTo(0, -220)
+        ctx.lineTo(0, -230)
+        ctx.stroke()
+      }
+
+      const time = new Date()
+      // 获取时
+      let hour = time.getHours()
+      // 获取分
+      let minute = time.getMinutes()
+      // 获取秒
+      let second = time.getSeconds()
+
+      // 绘制当前时分秒数字
+      mySetTransform(ctx, 0, 0, 1, 1, 400, 200)
+      let textRectW = 130
+      let textRectH = 35
+      ctx.strokeRect(-textRectW / 2, -textRectH / 2 - 3, textRectW, textRectH, [1, 1, 1,])
+      textRectW += 5
+      textRectH += 5
+      ctx.strokeRect(-textRectW / 2, -textRectH / 2 - 3, textRectW, textRectH)
+      ctx.fillText(`${hour}:${minute}:${second}`, 0, 0)
+
+      // 秒针
+      let newSecondDeg = second * (360 / 60)
+      mySetTransform(ctx, newSecondDeg, newSecondDeg, 1, 1, 400, 300)
+      ctx.beginPath()
+      ctx.strokeStyle = 'red'
+      ctx.moveTo(0, 50)
+      ctx.lineTo(0, -200)
+      ctx.stroke()
+
+      // 分针
+      let newExcessiveMinuteDeg = 360 / 60 * (newSecondDeg / 360)
+      newMinuteDeg = minute * (360 / 60) + newExcessiveMinuteDeg
+      mySetTransform(ctx, newMinuteDeg, newMinuteDeg, 1, 1, 400, 300)
+      ctx.beginPath()
+      ctx.strokeStyle = 'grey'
+      ctx.lineWidth = 5
+      ctx.moveTo(0, 38)
+      ctx.lineTo(0, -170)
+      ctx.stroke()
+
+      // 时针
+      let newExcessiveHourDeg = 360 / 12 * (newMinuteDeg / 360)
+      newHourDeg = hour > 12 ? (hour - 12) * (360 / 12) + newExcessiveHourDeg : hour * (360 / 60) + newExcessiveHourDeg
+      mySetTransform(ctx, newHourDeg, newHourDeg, 1, 1, 400, 300)
+      ctx.beginPath()
+      ctx.strokeStyle = 'black'
+      ctx.lineWidth = 10
+      ctx.moveTo(0, 25)
+      ctx.lineTo(0, -120)
+      ctx.stroke()
+
+      requestAnimationFrame(render)
+    }
+    render()
+
+  </script>
+
+</body>
+
+</html>

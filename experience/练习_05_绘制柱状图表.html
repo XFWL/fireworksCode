@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0
+  }
+
+  canvas {
+    display: block;
+    margin: 15px auto;
+    border: 2px solid black;
+  }
+</style>
+
+<body>
+  <canvas width="800" height="500"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    // 文字大小
+    ctx.font = '30px 微软雅黑'
+    // 绘制填充文字
+    ctx.fillText('数据可视化', 20, 40)
+
+    // x轴线
+    ctx.moveTo(90, 440)
+    ctx.lineTo(770, 440)
+    ctx.stroke()
+    // y轴线
+    ctx.moveTo(100, 100)
+    ctx.lineTo(100, 450)
+    ctx.stroke()
+
+
+    let dataArr = [
+      { name: '食品', value: 150 },
+      { name: '数码', value: 300 },
+      { name: '游戏', value: 153 },
+      { name: '家电', value: 350 },
+      { name: '床上用品', value: 300 },
+      { name: '日常用品', value: 513 },
+      { name: '书', value: 400 },
+      { name: '乐器', value: 230 },
+      { name: '电影', value: 27 },
+      { name: '游戏', value: 153 },
+      { name: '家电', value: 350 },
+      { name: '床上用品', value: 300 },
+      { name: '日常用品', value: 513 },
+      { name: '书', value: 400 },
+      { name: '乐器', value: 230 },
+      { name: '电影', value: 27 },
+    ]
+    let dataArr1 = [
+      { name: '食品', value: 15 },
+      { name: '数码', value: 30 },
+      { name: '游戏', value: 15 },
+      { name: '家电', value: 5 },
+      { name: '床上用品', value: 22 },
+      { name: '日常用品', value: 13 },
+      { name: '书', value: 7 },
+      { name: '乐器', value: 34 },
+      { name: '电影', value: 17 },
+    ]
+    let dataArr2 = [
+      { name: '食品', value: 150 },
+      { name: '数码', value: 300 },
+      { name: '游戏', value: 153 },
+      { name: '家电', value: 350 },
+      { name: '床上用品', value: 300 },
+      { name: '日常用品', value: 532 },
+      { name: '书', value: 400 },
+      { name: '乐器', value: 230 },
+      { name: '电影', value: 102 },
+    ]
+    strokeNameAndRect(dataArr2)
+
+
+    // 绘制数值横线 (数据最大数值'默认50')
+    function strokeLine(minValue, maxValue) {
+      // 数值的间隔
+      let numGap;
+      if (maxValue <= 10) {
+        numGap = 1
+        while (numGap < minValue) {
+          numGap += 1
+        }
+      } else {
+        numGap = 5
+        while (numGap < minValue) {
+          numGap += 5
+        }
+
+      }
+      // 图表最大值
+      let chartMax = maxValue % numGap == 0 ? numGap * parseInt(maxValue / numGap) : numGap * parseInt(maxValue / numGap + 1)
+
+      // 计算需要的行数
+      let num = chartMax / numGap
+
+      console.log(numGap, chartMax, num);
+
+      // 每行的y坐标
+      let lineY = (440 - 100) / num
+      // 每行对应的值
+      let numValue = chartMax / num
+      // 遍历生成
+      for (let line = 0; line < num + 1; line++) {
+
+        // y轴数字线 短实线------
+        ctx.beginPath()
+        ctx.strokeStyle = 'black'
+        ctx.moveTo(90, 100 + lineY * line)
+        ctx.lineTo(100, 100 + lineY * line)
+        ctx.stroke()
+        ctx.closePath()
+
+        // y轴数字线 长虚线------
+        ctx.beginPath()
+        ctx.strokeStyle = 'grey'
+        ctx.moveTo(100, 100 + lineY * line)
+        ctx.lineTo(770, 100 + lineY * line)
+        ctx.stroke()
+        ctx.closePath()
+
+        // y轴数字线 数字------
+        ctx.beginPath()
+        ctx.font = "15px 微软雅黑"
+        ctx.textAlign = 'right'
+        let newValue = parseInt(chartMax - line * numValue)
+        ctx.fillText(newValue, 80, 105 + lineY * line)
+        ctx.stroke()
+        ctx.closePath()
+
+
+      }
+      return chartMax
+    }
+    // 绘制选项竖线 (数值个数'默认2'，最大数值'默认50')
+    function strokeNameAndRect(arr = []) {
+      let cloneArr = Array.from(arr)
+      // 要生成几个
+      let num = arr.length
+      // 每个的右突起坐标
+      let lineX = (770 - 100) / num
+      // 矩形图最大值
+      let dataValue = 1
+      // 矩形图的名字
+      let dataName = 1
+
+      // 获取数值分级
+      let numLeveL = 0
+      // 排序，找最大最小值
+      cloneArr.sort((a, b) => a.value - b.value)
+      let valueMax = cloneArr[cloneArr.length - 1].value
+      let valueMin = cloneArr[0].value
+
+      // 绘制坐标图，并获取图表最大值
+      let chartMax = strokeLine(valueMin, valueMax)
+
+      // 遍历构建
+      arr.forEach((item, index) => {
+        // x轴 短实线------
+        ctx.beginPath()
+        ctx.strokeStyle = 'black'
+        ctx.moveTo(100 + lineX * (index + 1), 440)
+        ctx.lineTo(100 + lineX * (index + 1), 450)
+        ctx.stroke()
+        ctx.closePath()
+
+        // x轴名字------
+        ctx.beginPath()
+        // 设置字体对齐方式
+        ctx.textAlign = 'center'
+        ctx.fillStyle = 'black'
+        // 设置字体的x坐标
+        let fontCenterX = 100 + lineX * index + lineX / 2
+        // 写入字体
+        ctx.fillText(item.name, fontCenterX, 460)
+        ctx.closePath()
+
+        // x轴矩形数值------
+        ctx.beginPath()
+        ctx.fillStyle = 'red'
+        // 计算两边的间隙值
+        let gep = lineX * 0.3
+        // 计算矩形宽度 ：每一份宽度的0.7
+        let rectWidth = lineX * 0.7
+        // 计算矩形高度 ：y轴显示数值的长度 - (当前的值数 / 图表最大值)
+        let rectHeight = (440 - 100) * (item.value / chartMax)
+        // 计算矩形的x坐标 ：y轴的开始坐标
+        let rectX = 100 + (lineX * index) + (gep / 2)
+        // 计算矩形的y坐标 ：
+        let rectY = 440 - rectHeight
+        ctx.fillRect(rectX, rectY, rectWidth, rectHeight)
+        ctx.closePath()
+
+      })
+    }
+
+  </script>
+</body>
+
+</html>

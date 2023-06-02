@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  canvas {
+    display: block;
+    margin: 15px auto;
+    border: black 3px solid
+  }
+</style>
+
+<body>
+  <canvas id="id" width="800" height='500'></canvas>
+
+  <script>
+    // 获取画布
+    const canvas = document.getElementById('id')
+    // 获取上下文（笔）
+    const ctx = canvas.getContext('2d')
+    // 绘制的起点
+    ctx.moveTo(50, 250)
+    // 绘制的其他点
+    ctx.lineTo(50, 350)
+    ctx.lineTo(137, 300)
+    // 闭合绘制,把起点和最后一个点连接起来
+    ctx.closePath()
+    // 填充样式，填充样式
+    ctx.fillStyle = 'red'
+    // 填充————需要重新绘制，不然全局统一
+    ctx.fill()
+    // 笔划样式，绘制路径样式————需要重新绘制，不然全局统一
+    ctx.strokeStyle = 'blue'
+    // 笔划粗细
+    ctx.lineWidth = 20
+    // 绘制 填充和图形不需要这个
+    ctx.stroke()
+
+
+    // 另一条图形，可以写一起，但是每个stroke前只能有一个lineWidth
+    ctx.lineWidth = 5
+    ctx.moveTo(50, 50)
+    ctx.lineTo(100, 100)
+    ctx.stroke()
+    // 重新绘制，结束当前绘制，不影响下面的绘制
+    ctx.beginPath()
+
+    // 矩形 (x,y,w,h)
+    ctx.strokeRect(250, 50, 200, 100)
+    // ctx.strokeStyle = 'yellow'
+    ctx.stroke()
+
+    // 填充的矩形 (x,y,w,h)
+    // ctx.strokeStyle = 'yellow'
+    ctx.fillStyle = 'yellow'
+    ctx.fillRect(250, 250, 200, 100)
+    ctx.stroke()
+
+    // 圆 (x,y,r,开始弧度，结束弧度，是否逆时针旋转)
+    // 弧度技术按公式，2 * PI * 弧度(1) = 360
+    ctx.arc(600, 100, 50, 0, 2 * Math.PI, true)
+    ctx.stroke()
+    ctx.beginPath()
+
+    // 填充颜色圆
+    ctx.arc(725, 100, 50, 0, 2 * Math.PI, true)
+    ctx.fillStyle = 'yellow'
+    ctx.fill()
+    ctx.strokeStyle = 'green'
+    ctx.stroke()
+    ctx.beginPath()
+
+    // 不完整圆
+    // 1弧度 = 360 / 2 / PI ，一圈约等于 6.31 个弧度
+    ctx.arc(600, 300, 50, 0, 2, false)
+    ctx.fill()
+    ctx.stroke()
+    ctx.beginPath()
+
+    ctx.arc(725, 300, 50, 0, 2, true)
+    ctx.fill()
+    ctx.stroke()
+
+
+  </script>
+</body>
+
+</html>

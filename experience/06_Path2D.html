@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    border: 3px solid black;
+    display: block;
+    margin: 15px auto;
+  }
+</style>
+
+<body>
+  <canvas width="800" height="700"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    // 二维路径 (其他二维路径/svg路径) 
+    const path2d_1 = new Path2D()
+    console.log(path2d_1);
+    // 对话气泡框2
+    path2d_1.moveTo(500, 450)
+    path2d_1.bezierCurveTo(500, 400, 500, 400, 600, 400)
+    path2d_1.bezierCurveTo(700, 400, 700, 400, 700, 450)
+    path2d_1.bezierCurveTo(700, 500, 700, 500, 600, 500)
+    path2d_1.bezierCurveTo(600, 520, 600, 540, 570, 550)
+    path2d_1.bezierCurveTo(580, 540, 580, 520, 570, 500)
+    path2d_1.bezierCurveTo(500, 500, 500, 500, 500, 450)
+
+    // ctx.stroke(path2d_1)
+
+
+    const path2d_2 = new Path2D()
+    // 爱心
+    path2d_2.moveTo(200, 600)
+    path2d_2.bezierCurveTo(150, 590, 100, 470, 200, 520)
+    path2d_2.bezierCurveTo(300, 470, 250, 590, 200, 600)
+
+
+    ctx.globalAlpha = 0.5
+
+    ctx.fillStyle = 'rgb(241,35,12)'
+    ctx.fill(path2d_2)
+
+    ctx.globalAlpha = 1
+    ctx.fillStyle = 'rgba(151,115,150,0.5)'
+    ctx.fill(path2d_1)
+
+    // path2d_1.addPath(path2d_2)
+    // ctx.stroke(path2d_1)
+
+
+
+
+
+  </script>
+
+</body>
+
+</html>

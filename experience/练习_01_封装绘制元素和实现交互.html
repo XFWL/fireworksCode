@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    /* position: absolute; */
+    display: block;
+    border: 3px solid rgba(0, 0, 0, 1);
+    margin: 15px auto;
+  }
+</style>
+
+<body>
+  <canvas id="canvas1" width="800" height="600"></canvas>
+  <script>
+    const canvas1 = document.getElementById('canvas1')
+    const ctx = canvas1.getContext('2d')
+
+
+    class Heart {
+      isPointInPath = false
+      event = {
+        hover: [],
+        leave: []
+      }
+      constructor(x, y) {
+        this.x = x
+        this.y = y + 50
+        this.color = 'red'
+
+        // 添加画布的鼠标移动监听
+        canvas1.addEventListener('mousemove', (e) => {
+          this.isPointInPath = ctx.isPointInPath(this.chatPath, e.offsetX, e.offsetY)
+          if (this.isPointInPath) {
+            this.event.hover.forEach(item => {
+              item()
+            })
+          } else {
+            this.event.leave.forEach(item => {
+              item.apply(this)
+            })
+          }
+        })
+      }
+      // 暴露添加hover事件的方法
+      onHover(fn) {
+        this.event.hover.push(fn)
+      }
+      // 暴露添加leave事件的方法
+      onLeave(fn) {
+        this.event.leave.push(fn)
+      }
+      // 暴露修改位置的方法
+      setPosition(x, y) {
+        this.x = x
+        this.y = y
+      }
+      // 暴露创建爱心的方法
+      draw() {
+        this.chatPath = new Path2D()
+        this.chatPath.moveTo(this.x, this.y)
+        this.chatPath.bezierCurveTo(this.x - 75, this.y - 20, this.x - 150, this.y - 175, this.x, this.y - 100)
+        this.chatPath.bezierCurveTo(this.x + 150, this.y - 175, this.x + 75, this.y - 20, this.x, this.y)
+        ctx.fillStyle = this.color
+        ctx.fill(this.chatPath)
+      }
+
+    }
+
+    const heart = new Heart(200, 100)
+    // const heart1 = new Heart(200, 210)
+    // const heart2 = new Heart(200, 320)
+    // const heart3 = new Heart(200, 430)
+
+    // const heart4 = new Heart(400, 100)
+    // const heart5 = new Heart(400, 210)
+    // const heart6 = new Heart(400, 320)
+    // const heart7 = new Heart(400, 430)
+
+    // const heart8 = new Heart(600, 100)
+    // const heart9 = new Heart(600, 210)
+    // const heart10 = new Heart(600, 320)
+    // const heart11 = new Heart(600, 430)
+
+    // 箭头函数没有自己的this，由创建时的外层环境决定，不由调用时的确定
+    heart.onHover(() => {
+      heart.color = 'blue'
+    })
+    // function函数稳定指向 对象. 的对象使用者，如果是函数使用则稳定指向window，可以使用call、apply、bind修改this指向
+    heart.onLeave(function () {
+      this.color = 'red'
+    })
+
+    function render() {
+      heart.draw()
+      // heart1.draw()
+      // heart2.draw()
+      // heart3.draw()
+      // heart4.draw()
+      // heart5.draw()
+      // heart6.draw()
+      // heart7.draw()
+      // heart8.draw()
+      // heart9.draw()
+      // heart10.draw()
+      // heart11.draw()
+      requestAnimationFrame(render)
+    }
+    render()
+  </script>
+
+</body>
+
+</html>

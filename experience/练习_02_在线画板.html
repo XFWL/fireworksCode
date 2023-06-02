@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    /* position: absolute; */
+    display: block;
+    border: 3px solid rgba(0, 0, 0, 1);
+    margin: 15px auto;
+  }
+
+  div {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    margin: 0px auto;
+  }
+
+
+  hr~button,
+  hr~input {
+    margin: 0px 5px;
+  }
+
+  button.active {
+    color: white;
+    background-color: red;
+  }
+</style>
+
+<body>
+  <canvas id="canvas1" width="800" height="600"></canvas>
+  <div>
+    <hr style="margin:15px 0px;">
+    <button id="minLine" class="active">细线条</button>
+    <button id="maxLine">粗线条</button>
+    <button id="save">保存画布</button>
+    <input id="color" type="color">
+    <button id="clearRect">橡皮擦</button>
+    <button id="clearAll">清空画布</button>
+    <img id="newImg">
+  </div>
+
+  <script>
+    // 获取元素
+    const canvas = document.getElementById('canvas1')
+    const ctx = canvas1.getContext('2d')
+
+    const minLine = document.querySelector('#minLine')
+    const maxLine = document.querySelector('#maxLine')
+    const save = document.querySelector('#save')
+    const color = document.querySelector('#color')
+    const clearRect = document.querySelector('#clearRect')
+    const clearAll = document.querySelector('#clearAll')
+
+
+    // 允许绘画判定
+    let isStatus = false
+
+    // 记录路径
+    let chatPath = new Path2D()
+
+    // 修改线条样式
+    ctx.lineCap = 'round'
+    ctx.lineJoin = 'round'
+
+    let index = 0
+
+    // const oldImg = new Image()
+    // oldImg.src = './src/image/bachong.jpg'
+    // // oldImg.src = './src/image/shatang0.jpg'
+    // const oldW = oldImg.width
+    // const oldH = oldImg.height
+    // oldImg.onload = function () {
+    //   const beilu = 800 / oldW
+    //   canvas.width = 800
+    //   canvas.height = oldH * beilu
+    //   ctx.drawImage(oldImg, 0, 0, canvas.width, canvas.height)
+
+    // }
+
+    // 添加事件
+    minLine.addEventListener('click', function (e) {
+      // 修改混合模式为正常
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.lineWidth = 1;
+      minLine.classList.add('active')
+      maxLine.classList.remove('active')
+      clearRect.classList.remove('active')
+    })
+    maxLine.addEventListener('click', function (e) {
+      // 修改混合模式为正常
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.lineWidth = 10
+      minLine.classList.remove('active')
+      maxLine.classList.add('active')
+      clearRect.classList.remove('active')
+    })
+    save.addEventListener('click', function (e) {
+      const dataUrl = canvas.toDataURL('image/png', 1)
+      // const img = document.querySelector('#newImg')
+      // console.log(dataUrl);
+      // img.src = dataUrl
+
+      // 创建a标签，给href、download加上url，并触发点击事件进行下载
+      const newDownload = document.createElement('a')
+      newDownload.href = dataUrl
+      newDownload.download = '保存的东西'
+      newDownload.click()
+    })
+    color.addEventListener('change', function (e) {
+      ctx.strokeStyle = e.target.value
+    })
+    clearRect.addEventListener('click', function (e) {
+      // 修改混合模式为重叠消失
+      ctx.globalCompositeOperation = 'destination-out'
+      minLine.classList.remove('active')
+      maxLine.classList.remove('active')
+      clearRect.classList.add('active')
+    })
+    clearAll.addEventListener('click', function (e) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+    })
+
+
+
+    canvas.addEventListener('mousedown', function (e) {
+      let x = e.offsetX
+      let y = e.offsetY
+      isStatus = true
+      ctx.beginPath()
+      ctx.moveTo(x, y)
+    })
+    canvas.addEventListener('mousemove', function (e) {
+      let x = e.offsetX
+      let y = e.offsetY
+      if (isStatus) {
+        ctx.lineTo(x, y)
+        ctx.stroke()
+      }
+    })
+    document.addEventListener('mouseup', function (e) {
+      isStatus = false
+      ctx.closePath()
+    })
+
+
+  </script>
+
+</body>
+
+</html>

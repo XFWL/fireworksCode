@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  canvas {
+    display: block;
+    margin: auto;
+    border: 3px black solid;
+  }
+</style>
+
+<body>
+  <canvas width="700" height="500"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    // 计算度数
+    function computedPI(targetPI = 0) {
+      return Math.PI / 180 * targetPI
+    }
+
+    let rectWidth = 400
+    let rectheight = 300
+    let x = canvas.width / 2 - rectWidth / 2
+    let y = canvas.height / 2 - rectheight / 2
+
+    // for (let deg = 0; deg < 360; deg++) {
+    // setTimeout(() => {
+
+    // // 旋转 (角度)
+    // ctx.rotate(computedPI(deg))
+
+    // // 矩阵相乘 (x轴缩放，y轴旋转，x轴旋转，y轴缩放，x轴位移，y轴位移)
+    // ctx.transform(1, computedPI(15), computedPI(15), 1, 0, 0)
+
+
+    ctx.fillRect(x, y, rectWidth, rectheight)
+
+
+    // 清除矩形区域 (x,y,w,h)
+    // ctx.clearRect(x + 5, y + 5, 60, 50)
+    ctx.clearRect(x, y, 100, 200)
+
+    // 设置需要在绘制前
+    ctx.strokeStyle = 'red'
+    ctx.lineWidth = 5
+    ctx.fillStyle = 'yellow'
+
+
+    ctx.beginPath()
+      // }, deg * 500);
+    // }
+
+    // ctx.stroke()
+
+  </script>
+</body>
+
+</html>

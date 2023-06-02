@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+</style>
+
+<body>
+
+  <script>
+    (function () {
+
+      document.title = '烟花demo'
+
+      // 获取元素
+      const div = document.createElement('div')
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      const canvas1 = document.createElement('canvas')
+      const ctx1 = canvas.getContext('2d')
+
+
+      // 设置canvas的宽高
+      function resize() {
+        // 设置canvas宽高和浏览器一直
+        div.style.width = innerWidth + "px"
+        div.style.height = innerHeight + "px"
+        canvas.width = innerWidth
+        canvas.height = innerHeight
+        canvas1.width = innerWidth
+        canvas1.height = innerHeight
+      }
+      resize()
+
+      // 给window添加窗口改变的事件监听
+      window.addEventListener('resize', resize)
+
+      // 往body中添加canvas
+      document.body.append(div)
+      document.body.append(canvas)
+      document.body.append(canvas1)
+
+      // 样式配置
+      div.style.position = 'absolute'
+      div.style.backgroundColor = "black"
+      div.style.zIndex = '-3'
+      canvas.style.position = 'absolute'
+      canvas.style.zIndex = '-1'
+      canvas1.style.position = 'absolute'
+      canvas1.style.zIndex = '-2'
+      canvas1.style.backgroundPosition = 'center center'
+      canvas1.style.backgroundSize = '100% 100%'
+      canvas1.style.backgroundRepeat = 'no-repeat'
+
+      const img = new Image()
+      img.src = './src/image/myImage.png'
+      div.style.width = "100%"
+      div.style.height = "100%"
+      img.onload = function () {
+        canvas1.style.background = 'url(./src/image/myImage.png)'
+      }
+
+      // 三角函数计算偏移角度后的x坐标
+      // 如果是0度，那应该直接等于半径长度
+      function computedX(deg, radius) {
+        // return Math.cos(deg / 180 * Math.PI) * radius
+        return deg == 0 ? radius : Math.cos(deg / 180 * Math.PI) * radius
+      }
+      // 三角函数计算偏移角度后的y坐标
+      function computedY(deg, radius) {
+        return Math.sin(deg / 180 * Math.PI) * radius
+        // return Math.sin(deg / 180 * Math.PI) == 0 ? radius : Math.sin(deg / 180 * Math.PI) * radius
+      }
+
+      // 烟花升空粒子效果数组
+      const fireList = []
+      // 烟花爆炸粒子效果数组
+      const boomList = []
+      // 每组升空和爆炸粒子的唯一对应id
+      let onlyId = 0
+
+      // 记录每个爆炸的粒子效果
+      canvas.addEventListener('mousedown', function (e) {
+
+        // 点击位置的x坐标
+        const mouseX = e.offsetX
+        // 点击位置的y坐标
+        const mouseY = e.offsetY
+
+        // ————————————保存升空粒子数据————————————
+        // 临时保存对象
+        const fireStatus = {}
+        // 这组升空粒子对应的唯一id
+        fireStatus.id = onlyId
+        // 升空粒子的随机x坐标
+        fireStatus.x = canvas.width * 0.2 + canvas.width * Math.random() * 0.6
+        // 升空粒子的y坐标
+        fireStatus.y = canvas.height
+        // 升空粒子的结束坐标x（爆炸坐标x）
+        fireStatus.endX = e.offsetX
+        // 升空粒子的结束坐标y（爆炸坐标y）
+        fireStatus.endY = e.offsetY
+        // 升空粒子的半径
+        fireStatus.size = 4
+        // 是否抵达爆炸坐标判定
+        fireStatus.isEnd = false
+
+        // 升空粒子的rgba值（红/绿/蓝/透明度）
+        fireStatus.rgbR = Math.round(Math.random() * 100 + 155)
+        fireStatus.rgbG = Math.round(Math.random() * 255)
+        fireStatus.rgbB = Math.round(Math.random() * 255)
+        fireStatus.rgbA = 1
+
+        // 往数组里添加该粒子
+        fireList.push(fireStatus)
+
+        // ————————————保存爆炸粒子数据————————————
+
+        // 爆炸粒子个数
+        const count = 100
+        // 每个爆炸粒子的半径
+        const size = 3
+
+        // 遍历所有生成一组爆炸粒子的数据
+        for (let i = 0; i < count; i++) {
+
+          // 临时保存对象
+          const fireworksStatus = {}
+          // 这组爆炸粒子对应的唯一id
+          fireworksStatus.id = onlyId
+          // 爆炸中心的x坐标
+          fireworksStatus.x = mouseX
+          // 爆炸中心的y坐标
+          fireworksStatus.y = mouseY
+          // 随机速率
+          fireworksStatus.random = Math.random() * 2.5 + 0.1
+          // 爆炸粒子距离爆炸中心的距离
+          fireworksStatus.r = fireworksStatus.random
+          // 爆炸粒子相对于爆炸中心的角度
+          fireworksStatus.deg = 360 / count * i
+          // 爆炸粒子的半径
+          fireworksStatus.size = size
+          // 是否是这组烟花粒子的最后一个
+          fireworksStatus.isEnd = false
+
+          // 给最后一个添加的对象打上结束标识
+          if (i == count - 1) {
+            fireworksStatus.isEnd = true
+          }
+
+          // 爆炸粒子的rgba值（红/绿/蓝/透明度）
+          fireworksStatus.rgbR = Math.round(Math.random() * 100 + 155)
+          fireworksStatus.rgbG = Math.round(Math.random() * 255)
+          fireworksStatus.rgbB = Math.round(Math.random() * 255)
+          fireworksStatus.rgbA = 1
+
+          // 往数组里添加该粒子
+          boomList.push(fireworksStatus)
+        }
+
+        // 唯一标识++
+        onlyId++
+      })
+
+      // 绘制粒子函数
+      function drawParticle() {
+        // 绘制发射粒子
+        for (let j = 0; j < fireList.length; j++) {
+          // 发射粒子的当前x坐标
+          fireList[j].x += (fireList[j].endX - fireList[j].x) / 50
+          // 发射粒子的当前y坐标
+          fireList[j].y += (fireList[j].endY - fireList[j].y) / 50
+
+          // 开启新路径
+          ctx.beginPath()
+          // 数组填充颜色
+          ctx.fillStyle = `rgba(${fireList[j].rgbR},${fireList[j].rgbG},${fireList[j].rgbB},${fireList[j].rgbA})`
+          // 准备一个圆
+          ctx.arc(fireList[j].x, fireList[j].y, fireList[j].size, 0, Math.PI * 2)
+          // 将圆以填充的形式绘制
+          ctx.fill()
+
+          // 计算当前坐标和爆炸坐标的两点直线距离（三角函数）
+          const diffValue = (Math.abs(fireList[j].endY - fireList[j].y) ** 2 + Math.abs(fireList[j].endX - fireList[j].x) ** 2) ** 0.5
+          // 如果当前的坐标和爆炸坐标的距离小于200，就让透明度衰减
+          if (diffValue < 200) fireList[j].rgbA -= 0.011
+          // 如果当前升空粒子透明度为0，则调用烟花爆炸函数，并传入对应的唯一id
+          if (fireList[j].rgbA <= 0) fireworksBoom(fireList[j].id)
+        }
+
+        // 烟花爆炸函数
+        function fireworksBoom(id) {
+          // 从爆炸数组中寻找对应唯一id的爆炸粒子
+          const newList = boomList.filter(item => item.id == id)
+          // 渲染爆炸粒子
+          for (let i = 0; i < newList.length; i++) {
+            // 如果爆炸粒子透明度为0，应该将它从爆炸粒子数组中删除
+            if (newList[i].rgbA <= 0) {
+              // 判断当前粒子是否是这组爆炸粒子的最后一个
+              if (!newList[i].isEnd) {
+                // 不是最后一个就把自己删除
+                boomList.splice(boomList.indexOf(boomList.find(item => item.id == newList[i].id && item.random == newList[i].random)), 1)
+                continue
+              } else {
+                // 是最后一个就把自己删除的同时，把升空数组对应id的粒子也删除
+                fireList.splice(fireList.indexOf(fireList.find(item => item.id == id)), 1)
+                boomList.splice(boomList.indexOf(boomList.find(item => item.id == newList[i].id && item.random == newList[i].random)), 1)
+                continue
+              }
+
+            }
+
+            // 计算当前粒子的圆心x坐标
+            let arcX = computedX(newList[i].deg, newList[i].r)
+            // 计算当前粒子的圆心y坐标 +0.35以产生下坠效果
+            let arcY = computedY(newList[i].deg, newList[i].r) + 0.35
+            // 最终在画布上的x坐标
+            newList[i].x += arcX
+            // 最终在画布上的y坐标
+            newList[i].y += arcY
+
+            // 创建新路径
+            ctx.beginPath()
+            // 爆炸粒子填充颜色
+            ctx.fillStyle = `rgba(${newList[i].rgbR},${newList[i].rgbG},${newList[i].rgbB},${newList[i].rgbA})`
+            // 准备一个圆
+            ctx.arc(newList[i].x, newList[i].y + 1, newList[i].size, 0, Math.PI * 2)
+            // 以填充方式绘制
+            ctx.fill()
+
+
+            // 变速运动
+            // 简单适配pc和移动端
+            if (canvas.width < 500) {
+              // 半径 * (1 - 速率 / 爆炸半径)
+              newList[i].r *= 1 - newList[i].random / (canvas.width * 0.3 * (Math.random() * 0.5 + 1))
+              // 透明度衰减
+              newList[i].rgbA -= 0.015
+            } else {
+              // 半径 * (1 - 速率 / 爆炸半径)
+              newList[i].r *= 1 - newList[i].random / (canvas.width * 0.15 * (Math.random() * 0.5 + 1))
+              // 透明度衰减
+              newList[i].rgbA -= 0.004
+            }
+          }
+        }
+      }
+
+      // 渲染函数
+      function render() {
+
+        // 产生拖尾效果
+        ctx.globalCompositeOperation = 'destination-out'
+        ctx.fillStyle = 'rgba(0,0,0,' + 10 / 100 + ')'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.globalCompositeOperation = 'lighter'
+
+        // 绘制粒子函数
+        drawParticle()
+
+        // 测试用
+        // console.log(fireList, list);
+
+        // 请求动画帧
+        requestAnimationFrame(render)
+      }
+      // 执行渲染函数
+      render()
+
+    })()
+  </script>
+
+</body>
+
+</html>

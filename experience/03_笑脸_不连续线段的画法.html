@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    border: 3px solid black;
+    display: block;
+    margin: 15px auto;
+  }
+</style>
+
+<body>
+  <canvas width="500" height="400"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    // .beginPath() 和 .closePath() 开启结束新绘制
+    ctx.arc(150, 200, 100, 0, 2 * Math.PI)
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.arc(115, 175, 15, 0, 2 * Math.PI)
+    ctx.stroke()
+    ctx.closePath()
+
+    ctx.beginPath()
+    ctx.arc(185, 175, 15, 0, 2 * Math.PI)
+    ctx.stroke()
+    ctx.closePath()
+
+    ctx.beginPath()
+    ctx.arc(150, 200, 70, 0, 1 * Math.PI, false)
+    ctx.stroke()
+    ctx.closePath()
+
+
+    // .moveTo() 移动画笔到指定位置开始
+    ctx.beginPath()
+    ctx.moveTo(450, 200)
+    ctx.arc(350, 200, 100, 0, 2 * Math.PI)
+
+    ctx.moveTo(330, 175)
+    ctx.arc(315, 175, 15, 0, 2 * Math.PI)
+
+    ctx.moveTo(400, 175)
+    ctx.arc(385, 175, 15, 0, 2 * Math.PI)
+
+    ctx.moveTo(420, 200)
+    ctx.arc(350, 200, 70, 0, 1 * Math.PI, false)
+    ctx.stroke()
+
+    // ctx.moveTo(0, 0)
+    // ctx.lineTo(15, 15)
+
+    // ctx.moveTo(30, 15)
+    // ctx.lineTo(45, 0)
+    // ctx.stroke()
+
+  </script>
+
+</body>
+
+</html>

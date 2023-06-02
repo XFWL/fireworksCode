@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    border: 3px solid black;
+    display: block;
+    margin: 15px auto;
+  }
+
+  video {
+    border: 3px solid black;
+    /* display: block; */
+    margin: 15px auto;
+  }
+
+  button {
+    display: block;
+    margin: 15px auto;
+    transform: translate(0, 0) scale(1);
+  }
+</style>
+
+<body>
+  <canvas width="800" height="600"></canvas>
+  <button>sss </button>
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    let deg = 0
+    function rad(deg) {
+      return deg / 180 * Math.PI
+    }
+    function cSin(deg) {
+      return Math.sin(rad(deg))
+    }
+    function cCos(deg) {
+      return Math.cos(rad(deg))
+    }
+
+    // ctx.setTransform(1, 0, 0, 1, 400, 300)
+    // ctx.fillRect(-150, -25, 300, 50)
+
+    // 矩阵 (x缩放，x旋转，y旋转，y缩放，x位移，y位移)
+    // ctx.transform(1, 0, 0, 1, -400, -300)
+    // 重置矩阵 (x缩放，x旋转，y旋转，y缩放，x位移，y位移)
+    // ctx.setTransform(0.7, 0.7, -0.7, 0.7, 400, 300)
+    // ctx.fillRect(-150, -25, 300, 50)
+    // ctx.fillRect(0, 0, 800, 600)
+
+
+    // ctx.setTransform(cCos(0), cSin(0), -cSin(0), cCos(0), 400, 300)
+    // ctx.fillRect(-150, -25, 300, 50)
+
+    deg = 75
+    beiX = 1.5
+    beiY = 3
+    ctx.setTransform(cCos(deg) * beiX, cSin(deg) * beiX, -cSin(deg) * beiY, cCos(deg) * beiY, 575, 300)
+    ctx.fillRect(-150, -25, 300, 50)
+
+
+    // ctx.setTransform(cCos(90), cSin(90), -cSin(90), cCos(90) * 1, 100, 100)
+    // ctx.arc(0, 0, 50, 0, rad(360))
+    // ctx.fill()
+
+    // function render() {
+    //   deg++
+    //   if (deg >= 360) {
+    //     deg = 0
+    //   }
+    //   ctx.setTransform(cCos(deg), cSin(deg), -cSin(deg), cCos(deg), 400, 300)
+
+    //   ctx.fillRect(-150, -25, 300, 50)
+    //   ctx.clearRect(-151, 26, 302, 50)
+    //   ctx.clearRect(-151, -72, 302, 50)
+    //   requestAnimationFrame(render)
+    // }
+    // requestAnimationFrame(render)
+
+  </script>
+
+</body>
+
+</html>

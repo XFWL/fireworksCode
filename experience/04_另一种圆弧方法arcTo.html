@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    border: 3px solid black;
+    display: block;
+    margin: 15px auto;
+  }
+</style>
+
+<body>
+  <canvas width="500" height="400"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+
+    ctx.moveTo(100, 100)
+    ctx.lineTo(100, 200)
+    ctx.lineTo(200, 200)
+    // ctx.lineTo(200, 100)
+    // ctx.closePath()
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.moveTo(0, 0)
+    ctx.lineTo(100, 100)
+    // .arcTo(x1, y1, x2, y2, 半径r)
+    // 起点、控制点、终点
+    // 需要三个点，第一个点是moveTo()，第二、三个点是.arcTo()
+    // 圆弧的位置随着半径/圆心的变化而变化，
+    // 两个弧端点垂直相交的地方就是圆心，端点到圆心的距离是半径
+    ctx.arcTo(100, 200, 200, 200, 100)
+
+    ctx.stroke()
+
+  </script>
+
+</body>
+
+</html>
