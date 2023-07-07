@@ -61,6 +61,7 @@
       canvas1.style.backgroundSize = '100% 100%'
       canvas1.style.backgroundRepeat = 'no-repeat'
 
+      // 添加背景图片
       const img = new Image()
       img.src = './src/image/myImage.png'
       div.style.width = "100%"
@@ -158,10 +159,10 @@
           }
 
           // 爆炸粒子的rgba值（红/绿/蓝/透明度）
-          fireworksStatus.rgbR = Math.round(Math.random() * 100 + 155)
+          fireworksStatus.rgbR = Math.round(Math.random() * 255)
           fireworksStatus.rgbG = Math.round(Math.random() * 255)
           fireworksStatus.rgbB = Math.round(Math.random() * 255)
-          fireworksStatus.rgbA = 1
+          fireworksStatus.rgbA = Math.random() * 1 + 1
 
           // 往数组里添加该粒子
           boomList.push(fireworksStatus)
@@ -204,7 +205,7 @@
           // 渲染爆炸粒子
           for (let i = 0; i < newList.length; i++) {
             // 如果爆炸粒子透明度为0，应该将它从爆炸粒子数组中删除
-            if (newList[i].rgbA <= 0) {
+            if (newList[i].rgbA <= -1) {
               // 判断当前粒子是否是这组爆炸粒子的最后一个
               if (!newList[i].isEnd) {
                 // 不是最后一个就把自己删除
@@ -242,14 +243,14 @@
             // 简单适配pc和移动端
             if (canvas.width < 500) {
               // 半径 * (1 - 速率 / 爆炸半径)
-              newList[i].r *= 1 - newList[i].random / (canvas.width * 0.3 * (Math.random() * 0.5 + 1))
+              newList[i].r *= 1 - newList[i].random / (canvas.width * 0.35 * (Math.random() * 0.5 + 1))
               // 透明度衰减
-              newList[i].rgbA -= 0.015
+              newList[i].rgbA -= 0.0095
             } else {
               // 半径 * (1 - 速率 / 爆炸半径)
               newList[i].r *= 1 - newList[i].random / (canvas.width * 0.15 * (Math.random() * 0.5 + 1))
               // 透明度衰减
-              newList[i].rgbA -= 0.004
+              newList[i].rgbA -= 0.009
             }
           }
         }
@@ -260,7 +261,7 @@
 
         // 产生拖尾效果
         ctx.globalCompositeOperation = 'destination-out'
-        ctx.fillStyle = 'rgba(0,0,0,' + 10 / 100 + ')'
+        ctx.fillStyle = 'rgba(0,0,0,' + 10 / 80 + ')'
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         ctx.globalCompositeOperation = 'lighter'
 
